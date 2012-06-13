@@ -66,9 +66,7 @@ namespace CircularGauge
 
         #endregion
 
-        #region Dependency properties
-
-        
+        #region Dependency properties        
 
         /// <summary>
         /// Dependency property to Get/Set the Minimum Value 
@@ -158,15 +156,15 @@ namespace CircularGauge
         /// Dependency property to Get/Set Optimal Range End Value
         /// </summary>
         public static readonly DependencyProperty OptimalRangeEndValueProperty =
-           DependencyProperty.Register("OptimalRangeEndValue", typeof(double), typeof(CircularGaugeControl), 
-           new PropertyMetadata((double)70,new PropertyChangedCallback(CircularGaugeControl.OnOptimalRangeEndValuePropertyChanged)));
+           DependencyProperty.Register("OptimalRangeEndValue", typeof(double), typeof(CircularGaugeControl),
+           new PropertyMetadata((double)70, new PropertyChangedCallback(CircularGaugeControl.OnScalePropertyChanged)));
 
         /// <summary>
         /// Dependency property to Get/Set Optimal Range Start Value
         /// </summary>
         public static readonly DependencyProperty OptimalRangeStartValueProperty =
-           DependencyProperty.Register("OptimalRangeStartValue", typeof(double), typeof(CircularGaugeControl), 
-           new PropertyMetadata((double)30,new PropertyChangedCallback(CircularGaugeControl.OnOptimalRangeStartValuePropertyChanged)));
+           DependencyProperty.Register("OptimalRangeStartValue", typeof(double), typeof(CircularGaugeControl),
+           new PropertyMetadata((double)30, new PropertyChangedCallback(CircularGaugeControl.OnScalePropertyChanged)));
 
         /// <summary>
         /// Dependency property to Get/Set the image source
@@ -991,28 +989,28 @@ namespace CircularGauge
 
         }
 
-        private static void OnOptimalRangeEndValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            //Get access to the instance of CircularGaugeConrol whose property value changed
-            CircularGaugeControl gauge = d as CircularGaugeControl;
-            if ((double)e.NewValue > gauge.MaxValue)
-            {
-                gauge.OptimalRangeEndValue = gauge.MaxValue;
-            }
-            gauge.RefreshScale();
-        }
+        //private static void OnOptimalRangeEndValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    //Get access to the instance of CircularGaugeConrol whose property value changed
+        //    CircularGaugeControl gauge = d as CircularGaugeControl;
+        //    if ((double)e.NewValue > gauge.MaxValue)
+        //    {
+        //        gauge.OptimalRangeEndValue = gauge.MaxValue;
+        //    }
+        //    gauge.RefreshScale();
+        //}
         
-        private static void OnOptimalRangeStartValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            //Get access to the instance of CircularGaugeConrol whose property value changed
-            CircularGaugeControl gauge = d as CircularGaugeControl;
-            if ((double)e.NewValue < gauge.MinValue)
-            {
-                gauge.OptimalRangeStartValue = gauge.MinValue;
-            }
-            gauge.RefreshScale();
+        //private static void OnOptimalRangeStartValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    //Get access to the instance of CircularGaugeConrol whose property value changed
+        //    CircularGaugeControl gauge = d as CircularGaugeControl;
+        //    if ((double)e.NewValue < gauge.MinValue)
+        //    {
+        //        gauge.OptimalRangeStartValue = gauge.MinValue;
+        //    }
+        //    gauge.RefreshScale();
 
-        }
+        //}
 
         private static void OnScalePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -1384,9 +1382,7 @@ namespace CircularGauge
             Double optimalStartAngle;
             Double optimalEndAngle;
             
-            optimalStartAngle = realworldunit * (OptimalRangeStartValue - MinValue);
-
-            
+            optimalStartAngle = realworldunit * (OptimalRangeStartValue - MinValue);            
             optimalEndAngle = realworldunit * (OptimalRangeEndValue - MinValue);
 
             Double optimalStartAngleFromStart = (ScaleStartAngle + optimalStartAngle);
