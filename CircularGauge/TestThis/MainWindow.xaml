@@ -1,0 +1,29 @@
+﻿<Window x:Class="TestThis.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:gauge="clr-namespace:CircularGauge;assembly=CircularGauge"
+        Title="MainWindow" Height="445" Width="550">
+    <Grid>
+        <Button Content="Increment" Height="33" HorizontalAlignment="Left" Margin="410,289,0,0" Name="button1" VerticalAlignment="Top" Width="98" Click="button1_Click" />
+        <!--Black Gauge -->
+        <gauge:CircularGaugeControl x:Name="myGauge1"      
+                                MinValue="{Binding Value, ElementName=sliderMinValue}" 
+                                MaxValue="{Binding Value, ElementName=sliderMaxValue}"                                
+                                CurrentValue="{Binding Score}"
+                                ImageSource="windowslogo.png"
+                                ImageSize="40,50"                                
+                                RangeIndicatorLightRadius="10"
+                                RangeIndicatorLightOffset="80"                              
+                                ImageOffset="-50"
+                                DialTextOffset="55" 
+                                DialText="°C"
+                                DialTextColor="Black" 
+                                Margin="68,0,81,73">
+
+        </gauge:CircularGaugeControl>
+        <Slider Height="23" HorizontalAlignment="Left" Margin="68,371,0,0" VerticalAlignment="Top" Width="129" Orientation="Horizontal" Maximum="1000" Interval="100" Value="100" Name="sliderMaxValue"/>
+        <Label Content="Max value" Height="28" HorizontalAlignment="Left" Margin="68,349,0,0" Name="label1" VerticalAlignment="Top" />
+        <Slider Height="23" HorizontalAlignment="Right" Interval="100" Margin="0,371,81,0" Maximum="{Binding Value,ElementName=sliderMaxValue}" Name="sliderMinValue" Orientation="Horizontal" Value="0" VerticalAlignment="Top" Width="129" />
+        <Label Content="Min value" Height="28" HorizontalAlignment="Left" Margin="318,349,0,0" Name="label2" VerticalAlignment="Top" />
+    </Grid>
+</Window>
