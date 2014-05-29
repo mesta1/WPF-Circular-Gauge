@@ -984,42 +984,14 @@ namespace CircularGauge
                 gauge.RefreshScale();
                 gauge.OnCurrentValueChanged(new DependencyPropertyChangedEventArgs(CurrentValueProperty, gauge.CurrentValue, gauge.CurrentValue + 0.1));
             }
-            
-            
-
         }
-
-        //private static void OnOptimalRangeEndValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-        //    //Get access to the instance of CircularGaugeConrol whose property value changed
-        //    CircularGaugeControl gauge = d as CircularGaugeControl;
-        //    if ((double)e.NewValue > gauge.MaxValue)
-        //    {
-        //        gauge.OptimalRangeEndValue = gauge.MaxValue;
-        //    }
-        //    gauge.RefreshScale();
-        //}
-        
-        //private static void OnOptimalRangeStartValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-        //    //Get access to the instance of CircularGaugeConrol whose property value changed
-        //    CircularGaugeControl gauge = d as CircularGaugeControl;
-        //    if ((double)e.NewValue < gauge.MinValue)
-        //    {
-        //        gauge.OptimalRangeStartValue = gauge.MinValue;
-        //    }
-        //    gauge.RefreshScale();
-
-        //}
 
         private static void OnScalePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             CircularGaugeControl gauge = d as CircularGaugeControl;
             gauge.RefreshScale();
         }
-
-
-
+        
         public virtual void OnCurrentValueChanged(DependencyPropertyChangedEventArgs e)
         {
             //Validate and set the new value
@@ -1046,32 +1018,66 @@ namespace CircularGauge
 
             if (pointer != null)
             {
-                //double db1 = 0;
-                Double oldcurr_realworldunit = 0;
-                Double newcurr_realworldunit = 0;
-                Double realworldunit = (ScaleSweepAngle / (MaxValue - MinValue));
+                MovePointer(newValue, oldValue);
+            }
+        }
 
-                //Resetting the old value to min value the very first time.
-                if (oldValue == 0 && !isInitialValueSet)
-                {
-                    oldValue = MinValue;
-                    isInitialValueSet = true;
-                }
+        private void MovePointer(double newValue, double oldValue) 
+        {
+            //double db1 = 0;
+            Double oldcurr_realworldunit = 0;
+            Double newcurr_realworldunit = 0;
+            Double realworldunit = (ScaleSweepAngle / (MaxValue - MinValue));
 
-                //Add one line
-                oldcurr_realworldunit = ((double)(realworldunit) * (oldValue - MinValue));
-
-                //Add one line
-                newcurr_realworldunit = ((double)(realworldunit) * (newValue - MinValue));
-
-                Double oldcurrentvalueAngle = (ScaleStartAngle + oldcurr_realworldunit);
-                Double newcurrentvalueAngle = (ScaleStartAngle + newcurr_realworldunit);
-
-                //Animate the pointer from the old value to the new value
-                AnimatePointer(oldcurrentvalueAngle, newcurrentvalueAngle);
-
+            //Resetting the old value to min value the very first time.
+            if (oldValue == 0 && !isInitialValueSet)
+            {
+                oldValue = MinValue;
+                isInitialValueSet = true;
             }
 
+            //Add one line
+            oldcurr_realworldunit = ((double)(realworldunit) * (oldValue - MinValue));
+
+            //Add one line
+            newcurr_realworldunit = ((double)(realworldunit) * (newValue - MinValue));
+
+            Double oldcurrentvalueAngle = (ScaleStartAngle + oldcurr_realworldunit);
+            Double newcurrentvalueAngle = (ScaleStartAngle + newcurr_realworldunit);
+
+            //Animate the pointer from the old value to the new value
+            AnimatePointer(oldcurrentvalueAngle, newcurrentvalueAngle);
+        }
+
+        /// <summary>
+        /// Calcola l'angolo a cui si deve muovere il pointer dato valore di partenza e di arrivo.
+        /// </summary>
+        /// <param name="oldValue">valore di partenza</param>
+        /// <param name="newValue">valore di arrivo</param>
+        /// <returns></returns>
+        private double CalculateStartAngle(double oldValue, double newValue) 
+        {            
+            //double db1 = 0;
+            Double oldcurr_realworldunit = 0;
+            Double newcurr_realworldunit = 0;
+            Double realworldunit = (ScaleSweepAngle / (MaxValue - MinValue));
+
+            //Resetting the old value to min value the very first time.
+            if (oldValue == 0 && !isInitialValueSet)
+            {
+                oldValue = MinValue;
+                isInitialValueSet = true;
+            }
+
+            //Add one line
+            oldcurr_realworldunit = ((double)(realworldunit) * (oldValue - MinValue));
+
+            //Add one line
+            newcurr_realworldunit = ((double)(realworldunit) * (newValue - MinValue));
+
+            Double oldcurrentvalueAngle = (ScaleStartAngle + oldcurr_realworldunit);
+            Double newcurrentvalueAngle = (ScaleStartAngle + newcurr_realworldunit);
+            return newcurrentvalueAngle;
         }
 
         /// <summary>
@@ -1194,8 +1200,17 @@ namespace CircularGauge
 
             if (ResetPointerOnStartUp)
             {
+                double angle = 0;
+                if (CurrentValue <= MinValue) 
+                {
+                    angle = ScaleStartAngle;
+                }
+                else 
+                {
+                    angle = CalculateStartAngle(MinValue, CurrentValue);
+                }
                 //Reset Pointer
-                MovePointer(ScaleStartAngle);
+                MovePointer(angle);
             }
         }
 
