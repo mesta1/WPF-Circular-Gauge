@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>CircularGauge</id>
+    <version>1.0.0</version>
+    <authors>Michele Cattafesta</authors>
+    <owners>Michele Cattafesta</owners>
+    <projectUrl>https://github.com/mesta1/WPF-Circular-Gauge</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WPF Circular Gauge based on the EvelynT code found at http://www.codeproject.com/KB/silverlight/circulargaugecontrol.aspx?msg=3745697#xx3745697xx</description>
+    <releaseNotes>Initial add of package to Nuget</releaseNotes>
+    <tags>Circular Gauge WPF EvelynT</tags>
+    <dependencies>
+    </dependencies>
+  </metadata>
+</package>
